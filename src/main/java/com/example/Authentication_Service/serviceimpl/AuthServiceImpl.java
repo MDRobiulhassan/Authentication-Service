@@ -5,17 +5,19 @@ import com.example.Authentication_Service.dto.LoginResponse;
 import com.example.Authentication_Service.dto.SignupRequest;
 import com.example.Authentication_Service.entity.User;
 import com.example.Authentication_Service.repository.UserRepository;
+import com.example.Authentication_Service.service.AuthService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AuthService {
+public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
 
-    public AuthService(UserRepository userRepository) {
+    public AuthServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
+    @Override
     public void signup(SignupRequest request) {
         if (userRepository.findByEmail(request.email).isPresent()) {
             throw new RuntimeException("Email already exists");
@@ -29,6 +31,7 @@ public class AuthService {
         userRepository.save(user);
     }
 
+    @Override
     public LoginResponse login(LoginRequest request) {
         User user = userRepository.findByEmail(request.email)
                 .orElseThrow(() -> new RuntimeException("Invalid credentials"));
