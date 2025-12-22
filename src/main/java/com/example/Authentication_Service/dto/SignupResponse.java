@@ -3,8 +3,8 @@ package com.example.Authentication_Service.dto;
 import lombok.Data;
 
 @Data
-public class SignupRequest {
+public class SignupResponse {
     private String email;
-    private String password;
     private String name;
+    private String message;
 }

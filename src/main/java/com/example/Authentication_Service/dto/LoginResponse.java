@@ -1,7 +1,10 @@
 package com.example.Authentication_Service.dto;
 
+import lombok.Data;
+
+@Data
 public class LoginResponse {
-    public Long userId;
-    public String email;
-    public String message;
+    private Long userId;
+    private String email;
+    private String message;
 }
