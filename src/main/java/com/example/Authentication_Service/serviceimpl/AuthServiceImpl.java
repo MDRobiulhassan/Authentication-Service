@@ -1,10 +1,8 @@
 package com.example.Authentication_Service.serviceimpl;
 
-import com.example.Authentication_Service.dto.LoginRequest;
-import com.example.Authentication_Service.dto.LoginResponse;
-import com.example.Authentication_Service.dto.SignupRequest;
-import com.example.Authentication_Service.dto.SignupResponse;
+import com.example.Authentication_Service.dto.*;
 import com.example.Authentication_Service.entity.User;
+import com.example.Authentication_Service.exception.*;
 import com.example.Authentication_Service.repository.UserRepository;
 import com.example.Authentication_Service.service.AuthService;
 import org.springframework.stereotype.Service;
@@ -21,7 +19,11 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public SignupResponse signup(SignupRequest request) {
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new RuntimeException("Email already exists");
+            throw new EmailAlreadyExistsException();
+        }
+
+        if (!request.getPassword().equals(request.getConfirmPassword())) {
+            throw new PasswordMismatchException();
         }
 
         User user = User.builder()
@@ -30,29 +32,29 @@ public class AuthServiceImpl implements AuthService {
                 .password(request.getPassword())
                 .build();
 
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
 
-        SignupResponse signupResponse = new SignupResponse();
-        signupResponse.setEmail(request.getEmail());
-        signupResponse.setName(request.getName());
-        signupResponse.setMessage("Signup Successful");
-        return signupResponse;
+        SignupResponse response = new SignupResponse();
+        response.setUserId(savedUser.getId());
+        response.setEmail(savedUser.getEmail());
+        response.setName(savedUser.getName());
+        response.setMessage("Signup successful");
+        return response;
     }
 
     @Override
     public LoginResponse login(LoginRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("Invalid credentials"));
+                .orElseThrow(InvalidCredentialsException::new);
 
         if (!user.getPassword().equals(request.getPassword())) {
-            throw new RuntimeException("Invalid credentials");
+            throw new InvalidCredentialsException();
         }
 
         LoginResponse response = new LoginResponse();
         response.setUserId(user.getId());
         response.setEmail(user.getEmail());
         response.setMessage("Login successful");
-
         return response;
     }
 }
