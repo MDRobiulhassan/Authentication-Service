@@ -4,15 +4,15 @@ import com.example.Authentication_Service.dto.*;
 import com.example.Authentication_Service.entity.User;
 import com.example.Authentication_Service.exception.*;
 import com.example.Authentication_Service.repository.UserRepository;
-import com.example.Authentication_Service.service.AuthService;
+import com.example.Authentication_Service.service.AuthenticationService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AuthServiceImpl implements AuthService {
+public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final UserRepository userRepository;
 
-    public AuthServiceImpl(UserRepository userRepository) {
+    public AuthenticationServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

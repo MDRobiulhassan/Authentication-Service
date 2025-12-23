@@ -2,7 +2,7 @@ package com.example.Authentication_Service.controller;
 
 import com.example.Authentication_Service.dto.LoginRequest;
 import com.example.Authentication_Service.dto.SignupRequest;
-import com.example.Authentication_Service.service.AuthService;
+import com.example.Authentication_Service.service.AuthenticationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,22 +12,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/auth")
-public class AuthController {
+public class AuthenticationController {
 
-    private final AuthService authService;
+    private final AuthenticationService authenticationService;
 
-    public AuthController(AuthService authService) {
-        this.authService = authService;
+    public AuthenticationController(AuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
     }
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody SignupRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(authService.signup(request));
+                .body(authenticationService.signup(request));
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-        return ResponseEntity.ok(authService.login(request));
+        return ResponseEntity.ok(authenticationService.login(request));
     }
 }

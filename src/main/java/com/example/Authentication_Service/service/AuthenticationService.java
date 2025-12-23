@@ -5,7 +5,7 @@ import com.example.Authentication_Service.dto.LoginResponse;
 import com.example.Authentication_Service.dto.SignupRequest;
 import com.example.Authentication_Service.dto.SignupResponse;
 
-public interface AuthService {
+public interface AuthenticationService {
     SignupResponse signup(SignupRequest request);
     LoginResponse login(LoginRequest request);
 }
