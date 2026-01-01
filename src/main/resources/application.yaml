@@ -3,9 +3,9 @@ spring:
     name: Authentication-Service
 
   datasource:
-    url: jdbc:postgresql://aws-1-ap-south-1.pooler.supabase.com:5432/postgres
-    username: postgres.dvumlgfivhamanuvodxp
-    password: X@N39mdFXz6wCkB
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   jpa:
